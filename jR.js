@@ -43,7 +43,7 @@ var jumpCondition = 'none';
 
 // on key down
 
-document.addEventListener("click",jumpUp);
+canvas.addEventListener("click",jumpUp);
 
 function jumpUp(){
     if (jumpCondition=='none'){
