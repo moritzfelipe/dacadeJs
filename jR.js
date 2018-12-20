@@ -3,7 +3,7 @@ var ctx = cvs.getContext("2d");
 
 // load images
 
-var bird = new Image();
+var jumpMan = new Image();
 var bg = new Image();
 var fg = new Image();
 var policeCar = new Image();
@@ -12,7 +12,7 @@ var taxi = new Image();
 
 
 
-bird.src = "https://i.imgur.com/iey5EDb.png";
+jumpMan.src = "https://i.imgur.com/iey5EDb.png";
 //bg.src = "images/bg.png";
 //fg.src = "images/fg.png";
 policeCar.src = "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/155/police-car_1f693.png";
@@ -145,7 +145,7 @@ function draw(){
 
     //ctx.drawImage(fg,0,cvs.height - fg.height);
 
-    ctx.drawImage(bird,bX,bY,60,60);
+    ctx.drawImage(jumpMan,bX,bY,60,60);
 
     //bY += gravity;
 
