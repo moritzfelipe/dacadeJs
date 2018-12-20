@@ -12,7 +12,7 @@ var taxi = new Image();
 
 
 
-bird.src = "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/155/runner_1f3c3.png";
+bird.src = "https://i.imgur.com/iey5EDb.png";
 //bg.src = "images/bg.png";
 //fg.src = "images/fg.png";
 policeCar.src = "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/155/police-car_1f693.png";
