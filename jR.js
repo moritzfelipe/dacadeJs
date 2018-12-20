@@ -68,7 +68,7 @@ function draw(){
 
     //ctx.drawImage(bg,0,0);
     ctx.fillStyle = "#3977ff";
-    ctx.fillRect(0, 0, 288, 512);
+    ctx.fillRect(0, 0, 360, 512);
 
     var gap2 = Math.floor(Math.random() * 100) + 40;
     var obstacleRdn2 = Math.floor(Math.random() * 3) + 1;
@@ -141,7 +141,7 @@ function draw(){
     //console.log(bY);
 
     ctx.fillStyle = "#a6a6a6";
-    ctx.fillRect(0, 396, 288, 530);
+    ctx.fillRect(0, 396, 360, 260);
 
     //ctx.drawImage(fg,0,cvs.height - fg.height);
 
