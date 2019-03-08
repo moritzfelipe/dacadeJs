@@ -68,7 +68,7 @@ pipe[0] = {
 function draw(){
 
     //ctx.drawImage(bg,0,0);
-    ctx.fillStyle = "#3977ff";
+    ctx.fillStyle = "#ffffff";
     ctx.fillRect(0, 0, 360, 512);
 
     var gap2 = Math.floor(Math.random() * 100) + 40;
