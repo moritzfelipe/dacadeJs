@@ -1,161 +1,105 @@
 var cvs = document.getElementById("canvas");
 var ctx = cvs.getContext("2d");
-
-// load images
-
-var jumpMan = new Image();
 var bg = new Image();
 var fg = new Image();
-var policeCar = new Image();
-var racingCar = new Image();
-var taxi = new Image();
 
+
+// load images
+var jumpMan = new Image();
+var policeCar = new Image();
 
 jumpMan.src = "https://media.giphy.com/media/348soIaCn0PKLdZc3Z/giphy.gif"
-//jumpMan.src = "https://i.imgur.com/iey5EDb.png";
+bg.src = "images/bg3.png"
+policeCar.src = "images/police_car.png"
 
-//bg.src = "images/bg.png";
-//fg.src = "images/fg.png";
-policeCar.src = "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/155/police-car_1f693.png";
-racingCar.src = "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/155/racing-car_1f3ce.png";
-taxi.src = "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/240/apple/155/taxi_1f695.png";
+// variables
+const ground = 430
 
+const obstacleHeigth = 60
+const obstacleWidth = obstacleHeigth
+const jumpManHeight = 60
+const jumpManWidth = jumpManHeight
+var jumpManXCoordinate = 10;
+var jumpManYCoordinate = ground-jumpManHeight;
 
-// some variables
-
-var gap = 85;
-var constant;
-
-var bX = 10;
-var bY = 340;
-
-var gravity = 1.5;
+const gap = 85;
+const obstacleSpeed = 4
+var gravity = 5;
 
 var score = 0;
 var jumpCondition = 'none';
 
-// audio files
-
-//var fly = new Audio();
-//var scor = new Audio();
-
-//fly.src = "sounds/fly.mp3";
-//scor.src = "sounds/score.mp3";
-
 // on key down
-
 canvas.addEventListener("click",jumpUp);
 
 function jumpUp(){
-    if (jumpCondition=='none'){
+    if (jumpCondition == 'none'){
         jumpCondition = 'up';
-        //fly.play();
     }
-
 }
 
-// pipe coordinates
+// obstacle coordinates
+const obstacleCoordinates = [];
 
-var pipe = [];
-
-pipe[0] = {
+obstacleCoordinates[0] = {
     x : cvs.width,
-    y : 356
+    y : ground-obstacleHeigth
 };
 
 // draw images
-
 function draw(){
+    ctx.drawImage(bg,0,0);
 
-    //ctx.drawImage(bg,0,0);
-    ctx.fillStyle = "#ffffff";
-    ctx.fillRect(0, 0, 360, 512);
+    var randomGapDistance = Math.floor(Math.random() * 100) + 80;
 
-    var gap2 = Math.floor(Math.random() * 100) + 40;
-    var obstacleRdn2 = Math.floor(Math.random() * 3) + 1;
+    for(var i = 0; i < obstacleCoordinates.length; i++){
 
-    for(var i = 0; i < pipe.length; i++){
+        obstacleCoordinates[i].x = obstacleCoordinates[i].x - obstacleSpeed
 
-        //console.log(pipeNorth.height);
-        //constant = pipeNorth.height+gap;
-        //ctx.drawImage(pipeNorth,pipe[i].x,pipe[i].y);
-
-        pipe[i].x--;
-
-        if( pipe[i].x == 180 ){
-            pipe.push({
-                x : cvs.width+gap2,
-                y : 356,
-                lala: obstacleRdn2
-                //y : Math.floor(Math.random()*pipeNorth.height)-pipeNorth.height
-            });
-            console.log(gap2)
+        // Create a new obstacle if current obstacle is at x-coordinate 180.
+        if( obstacleCoordinates[i].x < 180 && obstacleCoordinates.length <= 1){
+            obstacleCoordinates.push({
+                x : cvs.width+randomGapDistance,
+                y : ground-obstacleHeigth
+            })
         }
-
-        obstacleRdn = pipe[i].lala;
-
-        if (obstacleRdn == 2) {
-          var obstacle = policeCar;
-        } else if (obstacleRdn == 3){
-          var obstacle = racingCar;
-        } else {
-          var obstacle = taxi;
-        }
-        //console.log(pipe[i]);
-        ctx.drawImage(obstacle,pipe[i].x,pipe[i].y,40,40);
-
 
         // detect collision
-        //if(this.x+30>obs.x && this.x<obs.x+obs.width && this.y+30>obs.y){
-
-
-        if( bX+60 >= pipe[i].x+40 && bX <= pipe[i].x && bY+60>pipe[i].y) {
-            console.log("hit");
-            location.reload(); // reload the page
-
+        if (jumpManXCoordinate + jumpManWidth/2 >= obstacleCoordinates[i].x
+            && jumpManXCoordinate <= obstacleCoordinates[i].x + obstacleWidth
+            && jumpManYCoordinate + jumpManHeight > obstacleCoordinates[i].y) {
+                score = 0
         }
 
-        //&& (bY <= pipe[i].y + pipeNorth.height)) || bY+bird.height >= pipe[i].y) || bY + bird.height >=  cvs.height - fg.height)
-
-        if(pipe[i].x == 5){
-            score++;
-            //scor.play();
+        // delete obstacle after out of screen
+        if(obstacleCoordinates[i].x < -obstacleWidth){
+            setTimeout( function() {
+                obstacleCoordinates.shift()
+            }, 0);
+            score++
         }
-
-
+        ctx.drawImage(policeCar,obstacleCoordinates[i].x,obstacleCoordinates[i].y,obstacleWidth,obstacleHeigth);
     }
 
     if (jumpCondition=='up') {
-        bY=bY-2;
+        jumpManYCoordinate -= gravity;
     }
     if (jumpCondition=='down'){
-        bY=bY+2;
+        jumpManYCoordinate += gravity;
     }
-    if (jumpCondition=='up' && bY<200) {
+    if (jumpCondition=='up' && jumpManYCoordinate<220) {
         jumpCondition='down';
     }
-    if (jumpCondition=='down' && bY==340) {
+    if (jumpCondition=='down' && jumpManYCoordinate==ground-jumpManHeight) {
         jumpCondition='none';
     }
+    ctx.drawImage(jumpMan,jumpManXCoordinate,jumpManYCoordinate,60,60);
 
-    //console.log(jumpCondition);
-    //console.log(bY);
-
-    ctx.fillStyle = "#a6a6a6";
-    ctx.fillRect(0, 396, 360, 260);
-
-    //ctx.drawImage(fg,0,cvs.height - fg.height);
-
-    ctx.drawImage(jumpMan,bX,bY,60,60);
-
-    //bY += gravity;
-
-    ctx.fillStyle = "#000";
+    ctx.fillStyle = "#fff";
     ctx.font = "20px Verdana";
-    ctx.fillText("Score : "+score,20,40);
+    ctx.fillText("Score: "+score,20,40);
 
     requestAnimationFrame(draw);
-
 }
 
 draw();
