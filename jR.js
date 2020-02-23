@@ -1,16 +1,24 @@
-var cvs = document.getElementById("canvas");
+let username
+
+function myFunction() {
+    event.preventDefault()
+    username = document.getElementById("username").value
+    document.getElementById("canvas").style.display = "block"
+    document.getElementById("userNameForm").style.display = "none"
+}
+var cvs = document.getElementById("canvas")
 var ctx = cvs.getContext("2d");
 var bg = new Image();
-var fg = new Image();
-
 
 // load images
 var jumpMan = new Image();
 var policeCar = new Image();
+const collisionImg = new Image()
 
 jumpMan.src = "https://media.giphy.com/media/348soIaCn0PKLdZc3Z/giphy.gif"
 bg.src = "images/bg3.png"
 policeCar.src = "images/police_car.png"
+collisionImg.src = "https://emojipedia-us.s3.dualstack.us-west-1.amazonaws.com/thumbs/120/apple/237/collision-symbol_1f4a5.png"
 
 // variables
 const ground = 430
@@ -19,15 +27,15 @@ const obstacleHeigth = 60
 const obstacleWidth = obstacleHeigth
 const jumpManHeight = 60
 const jumpManWidth = jumpManHeight
-var jumpManXCoordinate = 10;
-var jumpManYCoordinate = ground-jumpManHeight;
+var jumpManXCoordinate = 10
+var jumpManYCoordinate = ground-jumpManHeight
 
-const gap = 85;
+const gap = 85
 const obstacleSpeed = 4
-var gravity = 5;
+var gravity = 5
 
-var score = 0;
-var jumpCondition = 'none';
+var score = 0
+var jumpCondition = 'none'
 
 // on key down
 canvas.addEventListener("click",jumpUp);
@@ -63,12 +71,13 @@ function draw(){
                 y : ground-obstacleHeigth
             })
         }
-
+        ctx.drawImage(policeCar,obstacleCoordinates[i].x,obstacleCoordinates[i].y,obstacleWidth,obstacleHeigth);
         // detect collision
         if (jumpManXCoordinate + jumpManWidth/2 >= obstacleCoordinates[i].x
             && jumpManXCoordinate <= obstacleCoordinates[i].x + obstacleWidth
             && jumpManYCoordinate + jumpManHeight > obstacleCoordinates[i].y) {
                 score = 0
+                ctx.drawImage(collisionImg,obstacleCoordinates[i].x,obstacleCoordinates[i].y,obstacleWidth,obstacleHeigth);
         }
 
         // delete obstacle after out of screen
@@ -78,7 +87,6 @@ function draw(){
             }, 0);
             score++
         }
-        ctx.drawImage(policeCar,obstacleCoordinates[i].x,obstacleCoordinates[i].y,obstacleWidth,obstacleHeigth);
     }
 
     if (jumpCondition=='up') {
@@ -97,7 +105,7 @@ function draw(){
 
     ctx.fillStyle = "#fff";
     ctx.font = "20px Verdana";
-    ctx.fillText("Score: "+score,20,40);
+    ctx.fillText(username+': '+score,20,40);
 
     requestAnimationFrame(draw);
 }
