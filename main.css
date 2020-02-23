@@ -1,0 +1,41 @@
+h1 {
+  margin-bottom: 60px;
+}
+
+#canvas {
+  display: none;
+}
+
+#userNameForm {
+  margin-top: 250px;
+  margin-right: auto;
+  margin-left: auto;
+}
+
+.runner{
+  height: 1em;
+  margin-top: -0.2em;
+}
+
+.btn-start {
+  box-shadow: 0 0 8px -2px var(--red);
+  background: linear-gradient(180deg,#fc7777 5%,#ff0000);
+  /* background-color: #53d1af; */
+  border-radius: 7px;
+  display: inline-block;
+  cursor: pointer;
+  color: #fff;
+  font-size: 1.2rem;
+  font-weight: 700;
+  padding: 12px 36px;
+  text-decoration: none;
+  text-shadow: 0 0 7px #ce4754;
+}
+
+.container-canvas {
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 2em;
+  height: 560px;
+  width: 360px;
+}
