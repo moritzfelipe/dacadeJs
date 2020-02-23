@@ -16,9 +16,9 @@ function myFunction() {
     const collisionImg = new Image()
     
     var crash = new Audio();
-    crash.src = "sounds/qubodup-crash.ogg";
+    crash.src = "sounds/qubodup-crash.mp3";
     var jump = new Audio();
-    jump.src = "sounds/jump_08.wav";
+    jump.src = "sounds/jump_08.mp3";
     
     jumpMan.src = "https://media.giphy.com/media/348soIaCn0PKLdZc3Z/giphy.gif"
     bg.src = "images/bg3.png"
