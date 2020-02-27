@@ -29,14 +29,14 @@ function startGame() {
   const ground = 430
   const carWidth = 60
   const carHeigth = carWidth
-  const carSpeed = 4
+  const carSpeed = 3
 
   const runnerWidth = 60
   const runnerHeight = runnerWidth
   const runnerXCoordinate = 10
   let runnerYCoordinate = ground - runnerHeight
 
-  const gravity = 5
+  const gravity = 4
 
   let distance = 0
 
