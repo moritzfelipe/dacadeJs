@@ -2,8 +2,13 @@ h1 {
   margin-bottom: 60px;
 }
 
-.container-canvas {
+#container-canvas {
   display: none;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 2em;
+  height: 560px;
+  width: 360px;
 }
 
 #userNameForm {
@@ -30,14 +35,6 @@ h1 {
   padding: 12px 36px;
   text-decoration: none;
   text-shadow: 0 0 7px #ce4754;
-}
-
-.container-canvas {
-  margin-right: auto;
-  margin-left: auto;
-  margin-top: 2em;
-  height: 560px;
-  width: 360px;
 }
 
 .credits {

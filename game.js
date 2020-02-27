@@ -3,7 +3,7 @@ let username
 function startGame() {
   event.preventDefault()
   username = document.getElementById("username").value
-  document.getElementById("canvas").style.display = "block"
+  document.getElementById("container-canvas").style.display = "block"
   document.getElementById("userNameForm").style.display = "none"
 
   const canvas = document.getElementById("canvas")
