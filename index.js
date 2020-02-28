@@ -48,6 +48,9 @@ class Runner {
 	get locX() {
 		return this._locX
 	}
+	get locY() {
+		return this._locY
+	}
 	get sizeX() {
 		return this._sizeX
 	}
@@ -76,9 +79,6 @@ class Car {
 	move() {
 		this._locX -= this._speed
 	}
-	checkCollision(runnerLocX) {
-		if (this._locX === runnerLocX) this.collision = true
-	}
 	checkBorders() {
 		if (this._locX <= -this._sizeX) {
 			this.collision = false
@@ -88,6 +88,9 @@ class Car {
 	get locX() {
 		return this._locX
 	}
+	get locY() {
+		return this._locY
+	}
 }
 class Crash {
 	constructor(image, sound) {
@@ -95,7 +98,7 @@ class Crash {
 		this._sound = sound
 	}
 	draw(context, locX, locY) {
-		context.drawImage(this._image, locX, locY)
+		context.drawImage(this._image, locX, locY, 30, 30)
 	}
 	playSound() {
 		this._sound.play()
@@ -166,8 +169,13 @@ const draw = () => {
 	runner.jump()
 	runner.checkPosition()
 
-	const dist = car.locX - runner.locX
-	context.fillText(`${username}: ${Math.floor(dist)}m`, 20, 40)
+	const distanceX = Math.abs(Math.floor(car.locX - runner.locX))
+	console.log(car.locY)
+	if (distanceX <= 30) {
+		crash.draw(context, runner.locX + 30, runner.locY + 15)
+		crash.playSound()
+	}
+	context.fillText(`${username}: ${distanceX}m`, 20, 40)
 	requestAnimationFrame(draw)
 }
 
