@@ -19,22 +19,32 @@ crashSnd.src = "sounds/qubodup-crash.mp3"
 
 // Variables
 const ground = 430
-const carWidth = 60
-const carHeigth = carWidth
-const carSpeed = 3
+let car = {
+  width: 60,
+  height: 60,
+  speed: 3,
+  coordinates: {
+    x: [],
+    y: ''
+  }
+}
 
-const runnerWidth = 60
-const runnerHeight = runnerWidth
-const runnerXCoordinate = 10
-let runnerYCoordinate = ground - runnerHeight
+let runner = {
+  width: 60,
+  height: 60,
+  coordinates: {
+    x: 10,
+    y: 0
+  }
+}
+runner.coordinates.y = ground -  runner.height
 
 const gravity = 4
 let distance = 0
 let username
 
 // Car coordinates
-const carXCoordinates = []
-carXCoordinates[0] = canvas.width
+car.coordinates.x[0] = canvas.width
 
 // Jump functionality
 let jumpCondition = 'none'
@@ -52,26 +62,26 @@ function draw(){
   const randomGapDistance = Math.floor(Math.random() * 100) + 80
 
   // Cars
-  for(let i = 0; i < carXCoordinates.length; i++){
+  for(let i = 0; i < car.coordinates.x.length; i++){
     // Move car
-    carXCoordinates[i] = carXCoordinates[i] - carSpeed
+    car.coordinates.x[i] = car.coordinates.x[i] - car.speed
     // Create new car
-    if( carXCoordinates[i] < 180 && carXCoordinates.length <= 1){
-      carXCoordinates.push(canvas.width + randomGapDistance)
+    if( car.coordinates.x[i] < 180 && car.coordinates.x.length <= 1){
+      car.coordinates.x.push(canvas.width + randomGapDistance)
     }
     // Delete car when it is out of the screen
-    if(carXCoordinates[i] < - carWidth){
+    if(car.coordinates.x[i] < - car.width){
       setTimeout( function() {
-        carXCoordinates.shift()
+        car.coordinates.x.shift()
       }, 0);
     }
-    context.drawImage(carImg, carXCoordinates[i], ground-carHeigth, carWidth, carHeigth)
+    context.drawImage(carImg, car.coordinates.x[i], ground-car.height, car.width, car.height)
     
     // Collision
-    if (runnerXCoordinate + runnerWidth/2 >= carXCoordinates[i]
-      && runnerXCoordinate <= carXCoordinates[i] + carWidth
-      && runnerYCoordinate + runnerHeight > ground - carHeigth) {
-        context.drawImage(collisionImg, carXCoordinates[i], ground-carHeigth, carWidth, carHeigth)
+    if (runner.coordinates.x + runner.width/2 >= car.coordinates.x[i]
+      && runner.coordinates.x <= car.coordinates.x[i] + car.width
+      && runner.coordinates.y + runner.height > ground - car.height) {
+        context.drawImage(collisionImg, car.coordinates.x[i], ground-car.height, car.width, car.height)
         distance = 0
         crashSnd.play()
     }
@@ -80,19 +90,19 @@ function draw(){
 
   // Animate jump
   if (jumpCondition === 'up') {
-    runnerYCoordinate -= gravity
+    runner.coordinates.y -= gravity
   }
   if (jumpCondition === 'down'){
-    runnerYCoordinate += gravity
+    runner.coordinates.y += gravity
   }
-  if (jumpCondition === 'up' && runnerYCoordinate < 220) {
+  if (jumpCondition === 'up' && runner.coordinates.y < 220) {
     jumpCondition = 'down'
   }
-  if (jumpCondition === 'down' && runnerYCoordinate === ground - runnerHeight) {
+  if (jumpCondition === 'down' && runner.coordinates.y === ground - runner.height) {
     jumpCondition = 'none'
   }
 
-  context.drawImage(runnerImg, runnerXCoordinate, runnerYCoordinate, runnerHeight, runnerWidth)
+  context.drawImage(runnerImg, runner.coordinates.x, runner.coordinates.y, runner.height, runner.width)
 
   // Display distance
   context.fillStyle = "#fff"
