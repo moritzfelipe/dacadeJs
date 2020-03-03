@@ -1,108 +1,114 @@
+// Variables
 const canvas = document.getElementById("canvas")
 const context = canvas.getContext("2d")
 
-// Images
-const backgroundImg = new Image()
-backgroundImg.src = "images/background.png"
-const carImg = new Image()
-carImg.src = "images/car.png"
-const runnerImg = new Image()
-runnerImg.src = "images/runner_ani.gif"
-const collisionImg = new Image()
-collisionImg.src = "images/collision.png"
-
-// Sounds
-const jumpSnd = new Audio()
-jumpSnd.src = "sounds/jump_08.mp3"
-const crashSnd = new Audio()
-crashSnd.src = "sounds/qubodup-crash.mp3"
-
-// Variables
+const backgroundImage = new Image()
 const ground = 430
-let car = {
-  width: 60,
-  height: 60,
-  speed: 3,
-  coordinates: {
-    x: [],
-    y: ''
-  }
-}
-
-let runner = {
-  width: 60,
-  height: 60,
-  coordinates: {
-    x: 10,
-    y: 0
-  }
-}
-runner.coordinates.y = ground -  runner.height
-
 const gravity = 4
 let distance = 0
 let username
 
-// Car coordinates
-car.coordinates.x[0] = canvas.width
+let car = {
+  image: new Image(),
+  width: 60,
+  height: 60,
+  speed: 3
+}
+
+let cars = []
+cars[0] = {
+  x: canvas.width,
+  y: ground - 60
+}
+
+let runner = {
+  image: new Image(),
+  width: 60,
+  height: 60,
+  coordinates: {
+    x: 10,
+    y: ground - 60
+  }
+}
+
+const collision = {
+  image: new Image(),
+  sound: new Audio()
+}
+
+let jump = {
+  state: 'none',
+  sound: new Audio()
+}
+
+// Image sources
+backgroundImage.src = "images/background.png"
+runner.image.src = "images/runner_ani.gif"
+car.image.src = "images/car.png"
+collision.image.src = "images/collision.png"
+
+// Sound sources
+jump.sound.src = "sounds/jump_08.mp3"
+collision.sound.src = "sounds/qubodup-crash.mp3"
 
 // Jump functionality
-let jumpCondition = 'none'
-
 function jumpUp(){
-  if (jumpCondition == 'none'){
-    jumpCondition = 'up'
-    jumpSnd.play()
+  if (jump.state == 'none'){
+    jump.state = 'up'
+    jump.sound.play()
   }
 }
 canvas.addEventListener("click", jumpUp)
 
 function draw(){
-  context.drawImage(backgroundImg, 0, 0)
+  context.drawImage(backgroundImage, 0, 0)
   const randomGapDistance = Math.floor(Math.random() * 100) + 80
 
   // Cars
-  for(let i = 0; i < car.coordinates.x.length; i++){
+  for(let i = 0; i < cars.length; i++){
     // Move car
-    car.coordinates.x[i] = car.coordinates.x[i] - car.speed
+    cars[i].x = cars[i].x - car.speed
     // Create new car
-    if( car.coordinates.x[i] < 180 && car.coordinates.x.length <= 1){
-      car.coordinates.x.push(canvas.width + randomGapDistance)
+    if( cars[i].x < 180 && cars.length <= 1){
+      cars.push({
+        x: canvas.width + randomGapDistance,
+        y: ground - 60
+      })
     }
     // Delete car when it is out of the screen
-    if(car.coordinates.x[i] < - car.width){
+    if(cars[i].x < - car.width){
       setTimeout( function() {
-        car.coordinates.x.shift()
+        cars.shift()
       }, 0);
     }
-    context.drawImage(carImg, car.coordinates.x[i], ground-car.height, car.width, car.height)
+    context.drawImage(car.image, cars[i].x, cars[i].y, car.width, car.height)
     
     // Collision
-    if (runner.coordinates.x + runner.width/2 >= car.coordinates.x[i]
-      && runner.coordinates.x <= car.coordinates.x[i] + car.width
+    if (runner.coordinates.x + runner.width/2 >= cars[i].x
+      && runner.coordinates.x <= cars[i].x + car.width
       && runner.coordinates.y + runner.height > ground - car.height) {
-        context.drawImage(collisionImg, car.coordinates.x[i], ground-car.height, car.width, car.height)
+        context.drawImage(collision.image, cars[i].x, cars[i].y, car.width, car.height)
         distance = 0
-        crashSnd.play()
+        collision.sound.play()
     }
     distance += 0.05
   }
 
   // Animate jump
-  if (jumpCondition === 'up') {
+  if (jump.state === 'up') {
     runner.coordinates.y -= gravity
   }
-  if (jumpCondition === 'down'){
+  if (jump.state === 'down'){
     runner.coordinates.y += gravity
   }
-  if (jumpCondition === 'up' && runner.coordinates.y < 220) {
-    jumpCondition = 'down'
+  if (jump.state === 'up' && runner.coordinates.y < 220) {
+    jump.state = 'down'
   }
-  if (jumpCondition === 'down' && runner.coordinates.y === ground - runner.height) {
-    jumpCondition = 'none'
+  if (jump.state === 'down' && runner.coordinates.y === ground - runner.height) {
+    jump.state = 'none'
   }
 
-  context.drawImage(runnerImg, runner.coordinates.x, runner.coordinates.y, runner.height, runner.width)
+  context.drawImage(runner.image, runner.coordinates.x, runner.coordinates.y, runner.height, runner.width)
 
   // Display distance
   context.fillStyle = "#fff"
@@ -119,4 +125,3 @@ function startGame() {
   document.getElementById("userNameForm").style.display = "none"
   draw()
 }
-
