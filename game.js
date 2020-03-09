@@ -18,7 +18,7 @@ let car = {
 let cars = []
 cars[0] = {
   x: canvas.width,
-  y: ground - 60
+  y: ground - car.height
 }
 
 let runner = {
