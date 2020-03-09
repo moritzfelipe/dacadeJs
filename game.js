@@ -108,7 +108,7 @@ function draw(){
     jump.state = 'none'
   }
 
-  context.drawImage(runner.image, runner.coordinates.x, runner.coordinates.y, runner.height, runner.width)
+  context.drawImage(runner.image, runner.coordinates.x, runner.coordinates.y, runner.width, runner.height)
 
   // Display distance
   context.fillStyle = "#fff"
