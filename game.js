@@ -69,7 +69,7 @@ function draw(){
     // Move car
     cars[i].x = cars[i].x - car.speed
     // Create new car
-    if( cars[i].x < 180 && cars.length <= 1){
+    if( cars[i].x < 180 && cars.length === 1){
       cars.push({
         x: canvas.width + randomGapDistance,
         y: ground - car.height
