@@ -72,7 +72,7 @@ function draw(){
     if( cars[i].x < 180 && cars.length <= 1){
       cars.push({
         x: canvas.width + randomGapDistance,
-        y: ground - 60
+        y: ground - car.height
       })
     }
     // Delete car when it is out of the screen
