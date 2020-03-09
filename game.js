@@ -62,7 +62,6 @@ canvas.addEventListener("click", jumpUp)
 
 function draw(){
   context.drawImage(backgroundImage, 0, 0)
-  const randomGapDistance = Math.floor(Math.random() * 100) + 80
 
   // Cars
   for(let i = 0; i < cars.length; i++){
@@ -71,7 +70,7 @@ function draw(){
     // Create new car
     if( cars[i].x < 180 && cars.length === 1){
       cars.push({
-        x: canvas.width + randomGapDistance,
+        x: canvas.width + (Math.random() * 100) + 80,
         y: ground - car.height
       })
     }
